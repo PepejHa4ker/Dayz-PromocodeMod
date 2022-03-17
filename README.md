@@ -1,4 +1,6 @@
+
 ## PromocodeMod is a server mod that allows you to create and flexibly configure personal promocodes for players.
+[Steam Workshop](https://steamcommunity.com/workshop/filedetails/?id=2780196589)
     It allows to:
         - Spawn items with attachments (e.g. Riffle with the scope and magazine)
         - Set promocode max usages per player (Global max usages in future)
