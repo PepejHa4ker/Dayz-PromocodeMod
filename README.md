@@ -10,6 +10,9 @@
        - Go to server profile folder and open the PromocodeMod folder
        - config.json allows you to change base promocode command
        - Promocode folder contains all promocodes. To create a new one you have to create new .json file (e.g. first_promocode.json where first_promocode is a promocode id) and set up new promocode 
+### Usage:
+       - To use promocode you have to enter the command defined in the config.json file and then the id of the promocode (e.g. .promocode start) 
+
 ### Example promocode: (start.json file)
 
 ```{
