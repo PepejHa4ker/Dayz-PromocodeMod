@@ -1,0 +1,8 @@
+"Language","original","english","russian",
+"pm_promocode", "Promocode", "Промокод"
+"pm_code_expired", "Oops, seems to promocode has expired.", "Упс, видимо, срок действия промокода истек.",
+"pm_usage_limit", "The maximum number of uses of the promo code has been reached", "Достигнуто макисмальное количество использований промокода",
+"pm_code_cooldown", "Promocode will be ready in: ", "Промокод будет готов через: ",
+"pm_minutes", "minutes.", "минут."
+"pm_does_not_exists", " does not exists", " не существует",
+"pm_access_denied", "You do not have access to this promocode", "У Вас нет доступа к этому промокоду"
