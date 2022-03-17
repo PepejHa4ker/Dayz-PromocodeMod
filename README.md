@@ -9,8 +9,8 @@ How to create promocode:
        - config.json allows you to change base promocode command
        - Promocode folder contains all promocodes. To create a new one you have to create new .json file (e.g. first_promocode.json where first_promocode is a promocode id) and set up new promocode 
 Example promocode: (start.json file)
-`
-{
+
+```{
     "entry_id": "start",         
     "duration_minutes": -1,
     "public": 1,
@@ -50,4 +50,4 @@ Example promocode: (start.json file)
     ],
     "players": []
 }
-`
+```
