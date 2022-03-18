@@ -17,9 +17,17 @@ class PromocodeWeaponEntry
 	string magazine_class_name;
 	
 	
-	void SpawnWeapon( PlayerBase player ) 
+	void SpawnWeapon( PlayerBase player, bool on_ground ); 
 	{
-		Weapon_Base weapon = Weapon_Base.Cast(player.GetInventory().CreateInInventory( class_name ));
+		Weapon_Base weapon;
+		if ( on_ground ) 
+		{
+			weapon = Weapon_Base.Cast( GetGame().CreateObject( class_name, player.GetPosition() ) );
+		} 
+		else 
+		{
+			weapon = Weapon_Base.Cast( player.GetInventory().CreateInInventory( class_name ));
+		}
 		if ( weapon == NULL ) 
 		{
 			return;

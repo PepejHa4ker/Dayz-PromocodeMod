@@ -5,6 +5,7 @@ class PromocodeEntrySettings
    	protected string entry_id;
 	protected int duration_minutes;
 	protected bool public;
+	protected bool spawn_on_ground;
 	protected int max_usages;
 	ref array<PromocodeItemEntry> items;
 	ref array<PromocodeWeaponEntry> weapons;
@@ -20,6 +21,11 @@ class PromocodeEntrySettings
 	{
 		return CONFIG_DIR + "\\" + entry_id + ".json";
 	}
+	
+	bool SpawnOnGround()
+	{
+		return spawn_on_ground;
+	}  
 
     string GetEntryId()
     {
@@ -69,22 +75,34 @@ class PromocodeEntrySettings
 		{
 			for(int i = 0; i < item.amount; i++) 
 			{
-				auto item_base = ItemBase.Cast( player.GetInventory().CreateInInventory( item.class_name ) );
-				if ( item_base != NULL ) 
-				{
-					item_base.SetQuantity(item_base.GetQuantityMax());
-
-				}
-
+				CreateItem( item.clas_name, spawn_on_ground, player );
 			}
 			
 		}
 		foreach(auto weapon : weapons )
 		{
-			weapon.SpawnWeapon ( player );
+			weapon.SpawnWeapon ( player, spawn_on_ground );
 		}
 
     }
+	
+	private static ItemBase CreateItem( string class_name, bool on_ground, PlayerBase player )
+	{
+		ItemBase item;
+		if ( on_ground ) 
+		{
+			item = ItemBase.Cast( GetGame().CreateObject( class_name, player.GetPosition() ) );
+		} 
+		else 
+		{
+			item = ItemBase.Cast( player.GetInventory().CreateInInventory( class_name ) );
+		}
+		if ( item != NULL ) 
+		{
+			item.SetQuantity(item.GetQuantityMax());
+		}
+		return item;
+	}
 
 
 	void Save() 

@@ -13,19 +13,12 @@ class CfgMods
 		type="mod";
 		dependencies[]=
 		{
-			"Game",
 			"Mission",
 			"World"
 		};
 		class defs
 		{
-			class gameScriptModule
-			{
-				files[]=
-				{
-					"PromocodeMod/scripts/3_Game"
-				};
-			};
+
 			class missionScriptModule
 			{
 				files[]=

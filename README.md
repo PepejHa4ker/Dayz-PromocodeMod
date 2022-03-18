@@ -1,19 +1,21 @@
 
 ## PromocodeMod is a server mod that allows you to create and flexibly configure personal promocodes for players.
 [Steam Workshop](https://steamcommunity.com/workshop/filedetails/?id=2780196589)
-    It allows to:
-        - Spawn items with attachments (e.g. Riffle with the scope and magazine)
-        - Set promocode max usages per player (Global max usages in future)
-        - Set promocode cooldown per player (Global cooldowns in future) 
-        - Create temp promocodes. Temporarily give players access to promocodes, after the expiration date, the promocode will automatically become unavailabler.
-    How to create promocode:
-       - Go to server profile folder and open the PromocodeMod folder
-       - config.json allows you to change base promocode command
-       - Promocode folder contains all promocodes. To create a new one you have to create new .json file (e.g. first_promocode.json where first_promocode is a promocode id) and set up new promocode 
-### Usage:
-       - To use promocode you have to enter the command defined in the config.json file and then the id of the promocode (e.g. .promocode start) 
 
-### Example promocode: (start.json file)
+### It allows to:
+- Spawn items with attachments (e.g. Riffle with the scope and magazine)
+- Set promocode max usages per player (Global max usages in future)
+- Set promocode cooldown per player (Global cooldowns in future) 
+- Create temp promocodes. Temporarily give players access to promocodes, after the expiration date, the promocode will automatically become unavailabler.
+
+### How to create promocode:
+- Go to the server profile folder and open the PromocodeMod folder
+- config.json allows you to change base promocode command
+- Promocode folder contains all promocodes. To create a new one you have to create new .json file (e.g. first_promocode.json where first_promocode is a promocode id) and set up new promocode 
+### Usage:
+- To use promocode you have to enter the command defined in the config.json file and then the id of the promocode (e.g. .promocode start) 
+
+## Example promocode: (start.json file)
 
 ```{
     "entry_id": "start",         
@@ -57,7 +59,7 @@
 }
 ```
 
-### Example personal promocode (GOPAtyCh.json file)
+## Example personal promocode (GOPAtyCh.json file)
 ```{
     "entry_id": "GOPAtyCh",
     "duration_minutes": 30,
