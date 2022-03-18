@@ -21,6 +21,7 @@
     "entry_id": "start",         
     "duration_minutes": -1,
     "public": 1,
+    "spawn_on_ground": 0,
     "max_usages": 1,
     "items": [
         {
@@ -64,6 +65,7 @@
     "entry_id": "GOPAtyCh",
     "duration_minutes": 30,
     "public": 0,
+    "spawn_on_ground": 0,
     "max_usages": -1,
     "items": [
         {
