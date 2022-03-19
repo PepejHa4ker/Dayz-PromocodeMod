@@ -9,6 +9,14 @@ modded class MissionServer
 
 	}
 	
+	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
+	{
+		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
+		auto spawn_set_entry = GetSpawnSetEntrySettings(identity.GetPlainId());
+		GetPromocodeUsageHandler().HandleSpawnEvent( player, spawn_set_entry );
+		return player;
+	}
+	
 
 
 	override void OnEvent( EventType eventTypeId, Param params ) 

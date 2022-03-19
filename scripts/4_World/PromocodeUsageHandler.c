@@ -13,11 +13,23 @@ class PromocodeUsageHandler
     	{
     		if ( tokens.Get( 0 ) == settings.GetPromocodeCommand() )
     		{
-    			HandlePromocodeCommand( player, tokens.Get( 1 ) );
+    			HandlePromocodeCommand( player, tokens.Get( 1 ), false );
     		}
     	}
 
     }
+	
+	void HandleSpawnEvent( PlayerBase player, PromocodeSpawnSetEntrySettings spawn_set_entry )
+	{
+		if ( spawn_set_entry == NULL )
+		{
+			return;
+		}
+		foreach (auto promocode : spawn_set_entry.promocodes)
+		{
+			HandlePromocodeCommand( player, promocode, true );
+		}
+	}
 	
 	private bool CanUse( PromocodeEntrySettings promocode_entry, PromocodePlayerEntry player_entry, PlayerBase player )
 	{
@@ -65,17 +77,26 @@ class PromocodeUsageHandler
 		player_entry.usages += 1;
 	    player_entry.last_use_unix_ts = PMStatic.GetUnixNow();
 	    promocode_entry.Save();
+	    PMStatic.SendPlayerMessage( player, "Промокод " + promocode_entry.GetEntryId() + " был успешно использован");
 	}
 
-    private void HandlePromocodeCommand( PlayerBase player, string promocode_id )
+    private void HandlePromocodeCommand( PlayerBase player, string promocode_id, bool on_spawn )
     {
     	auto entry = GetPromocodeEntrySettings( promocode_id );
     	if ( entry == NULL )
     	{
+			if ( !on_spawn ) 
+			{
     		PMStatic.SendPlayerMessage(player, "Промокод " + promocode_id + " не существует");
+			}
     	} 
     	else
     	{
+			if ( entry.only_on_spawn ) 
+			{
+				PMStatic.SendPlayerMessage(player, "Вы не можете использовать этот промокод"");
+				return;
+			}
 			auto player_entry = entry.GetPlayerEntry( player );
 			if ( player_entry == NULL ) 
 			{
@@ -89,8 +110,12 @@ class PromocodeUsageHandler
 				} 
 				else // access denied
 				{
-					PMStatic.SendPlayerMessage(player, "У Вас нет доступа к этому промокоду" );
+					if ( !on_spawn ) 
+					{
+						PMStatic.SendPlayerMessage(player, "У Вас нет доступа к этому промокоду" );
+					}
 					return;
+					
 				}
 			}
 			if ( CanUse( entry, player_entry, player ) )

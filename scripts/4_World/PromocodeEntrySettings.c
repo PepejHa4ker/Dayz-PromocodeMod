@@ -6,6 +6,7 @@ class PromocodeEntrySettings
 	protected int duration_minutes;
 	protected bool public;
 	protected bool spawn_on_ground;
+	protected bool only_on_respawn;
 	protected int max_usages;
 	ref array<PromocodeItemEntry> items;
 	ref array<PromocodeWeaponEntry> weapons;
@@ -133,7 +134,7 @@ class PromocodeEntrySettings
     }
 }
 
-static PromocodeEntrySettings GetPromocodeEntrySettings( string id )
+static ref PromocodeEntrySettings GetPromocodeEntrySettings( string id )
 {
     
     auto entry = PromocodeEntrySettings( id );

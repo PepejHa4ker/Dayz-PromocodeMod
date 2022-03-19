@@ -1,0 +1,49 @@
+{
+    "entry_id": "1",
+    "duration_minutes": -1,
+    "on_spawn": 1,
+    "public": 1,
+    "max_usages": 1,
+    "items": [
+        {
+            "attachments": [],
+            "class_name": "Apple",
+            "amount": 3
+        },
+        {
+            "attachments": [],
+            "class_name": "Mag_STANAG_60Rnd",
+            "amount": 1
+        },
+        {
+            "attachments": [],
+            "class_name": "Ammo_556x45",
+            "amount": 3
+        }
+    ],
+    "weapons": [
+        {
+            "attachments": [
+                {
+                    "attachments": [],
+                    "class_name": "ACOGOptic",
+                    "amount": 1
+                }
+            ],
+            "class_name": "M4A1",
+            "change_fire_mode": 1,
+            "fire_mode": 2,
+            "attach_magazine": 1,
+            "magazine_class_name": "Mag_STANAG_60Rnd"
+        }
+    ],
+    "players": [
+        {
+            "player_id": "76561198400554730",
+            "promocode_days": 0,
+            "usages": 1,
+            "last_use_unix_ts": 703051096,
+            "last_die_unix_ts": 0
+        }
+    ]
+}

@@ -4,6 +4,7 @@
 
 ### It allows to:
 - Spawn items with attachments (e.g. Riffle with the scope and magazine)
+- Create spawn sets (items will spawn after player respawn)
 - Set promocode max usages per player (Global max usages in future)
 - Set promocode cooldown per player (Global cooldowns in future) 
 - Create temp promocodes. Temporarily give players access to promocodes, after the expiration date, the promocode will automatically become unavailabler.
@@ -13,16 +14,21 @@
 - config.json allows you to change base promocode command
 - Promocode folder contains all promocodes. To create a new one you have to create new .json file (e.g. first_promocode.json where first_promocode is a promocode id) and set up new promocode 
 ### Usage:
-- To use promocode you have to enter the command defined in the config.json file and then the id of the promocode (e.g. .promocode start) 
+If you're using command mode:
+<p>You have to enter the command defined in the config.json file and then the id of the promocode (e.g. .promocode start)</p>
 
-## Example promocode: (start.json file)
+If you're using on respawn mode:
+<p>Just die</p>
 
-```
+## Example promocode: (Promocodes/start.json file)
+
+```json
 {
     "entry_id": "start",         
     "duration_minutes": -1,
     "public": 1,
     "spawn_on_ground": 0,
+    "only_on_respawn": 1,
     "max_usages": 1,
     "items": [
         {
@@ -61,13 +67,14 @@
 }
 ```
 
-## Example personal promocode (GOPAtyCh.json file)
-```
+## Example personal promocode (Promocodes/GOPAtyCh.json file)
+```json
 {
     "entry_id": "GOPAtyCh",
     "duration_minutes": 30,
     "public": 0,
     "spawn_on_ground": 0,
+    "only_on_respawn": 0,
     "max_usages": -1,
     "items": [
         {
@@ -123,3 +130,13 @@
     ]
 }
 ```
+## Example spawn set (SpawnSets/76561198400554730.json file)
+```json
+{
+  "entry_id": "76561198400554730", 
+  "promocodes": [
+    "start"
+  ]
+}
+```
+
