@@ -75,7 +75,7 @@ class PromocodeEntrySettings
 		{
 			for(int i = 0; i < item.amount; i++) 
 			{
-				CreateItem( item.clas_name, spawn_on_ground, player );
+				CreateItem( item.class_name, spawn_on_ground, player );
 			}
 			
 		}
