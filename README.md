@@ -17,7 +17,8 @@
 
 ## Example promocode: (start.json file)
 
-```{
+```
+{
     "entry_id": "start",         
     "duration_minutes": -1,
     "public": 1,
@@ -61,7 +62,8 @@
 ```
 
 ## Example personal promocode (GOPAtyCh.json file)
-```{
+```
+{
     "entry_id": "GOPAtyCh",
     "duration_minutes": 30,
     "public": 0,
