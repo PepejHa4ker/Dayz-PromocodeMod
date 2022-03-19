@@ -17,7 +17,7 @@ class PromocodeWeaponEntry
 	string magazine_class_name;
 	
 	
-	void SpawnWeapon( PlayerBase player, bool on_ground ); 
+	void SpawnWeapon( PlayerBase player, bool on_ground )
 	{
 		Weapon_Base weapon;
 		if ( on_ground ) 
