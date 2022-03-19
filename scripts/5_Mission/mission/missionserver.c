@@ -74,20 +74,6 @@ modded class MissionServer
 	}
 	*/
 	
-	private bool HasAtLeastOneActivePromocode( array<PromocodeEntrySettings> promocodes, PlayerBase player )
-	{
-		foreach(auto promocode : promocodes )
-		{
-
-			auto player_entry = promocode.GetPlayerEntry( player );
-			if ( !player_entry ) continue;
-			if ( GetPromocodeUsageHandler().CanUse( promocode, player_entry, NULL, true )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
 
 
 	override void OnEvent( EventType eventTypeId, Param params ) 
