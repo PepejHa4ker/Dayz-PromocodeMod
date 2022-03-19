@@ -8,35 +8,86 @@ modded class MissionServer
 		
 
 	}
-	
-	
-	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
-	{		
-		string characterType;
+
+	override PlayerBase OnClientNewEvent(PlayerIdentity identity, vector pos, ParamsReadContext ctx)
+  	{
+  		string characterType;
   		SyncRespawnModeInfo(identity);
- 		if ( ProcessLoginData(ctx) && (m_RespawnMode == GameConstants.RESPAWN_MODE_CUSTOM) && !GetGame().GetMenuDefaultCharacterData(false).IsRandomCharacterForced() )
-        {
-  			if (GetGame().ListAvailableCharacters().Find(GetGame().GetMenuDefaultCharacterData().GetCharacterType()) > -1)
-  				characterType = GetGame().GetMenuDefaultCharacterData().GetCharacterType();
-  			else //random type
-  				characterType = GetGame().CreateRandomPlayer();
- 	    }
-        else
-        {
-        	characterType = GetGame().CreateRandomPlayer();
-  			GetGame().GetMenuDefaultCharacterData().GenerateRandomEquip();
- 	    }
-
-  		if (CreateCharacter(identity, pos, ctx, characterType) && !GetPromocodeModServerSettings().CancelEquipOnRespawnSet() )
-  		{
- 			 EquipCharacter(GetGame().GetMenuDefaultCharacterData());
-  		}
   
-		GetPromocodeUsageHandler().HandleSpawnEvent( player, GetSpawnSetEntrySettings( identity.GetPlainId() ) );
+  		if ( ProcessLoginData(ctx) && (m_RespawnMode == GameConstants.RESPAWN_MODE_CUSTOM) && !GetGame().GetMenuDefaultCharacterData(false).IsRandomCharacterForced() )
+		{
+			if (GetGame().ListAvailableCharacters().Find(GetGame().GetMenuDefaultCharacterData().GetCharacterType()) > -1)
+				characterType = GetGame().GetMenuDefaultCharacterData().GetCharacterType();
+  			else //random type
+ 				characterType = GetGame().CreateRandomPlayer();
+  		}
+  		else
+  		{
+ 		    characterType = GetGame().CreateRandomPlayer();
+            GetGame().GetMenuDefaultCharacterData().GenerateRandomEquip();
+        }
+  		auto spawn_set_entry = GetSpawnSetEntrySettings(identity.GetPlainId());
+        if (CreateCharacter(identity, pos, ctx, characterType))
+        {
+			GetPromocodeUsageHandler().HandleSpawnEvent( m_player, spawn_set_entry );
 
- 	    return m_player;
+  			if ( spawn_set_entry )
+  			{
+			
+				if ( spawn_set_entry.HasAtLeastOneActiveSpawnSet( m_player )
+				{
+					return m_player;
+				} 
+			
+			}
+  			EquipCharacter(GetGame().GetMenuDefaultCharacterData());
+			
+  		}
+  		return m_player;
+  	}
+  
+	/*
+	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
+	{
+		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
+		auto spawn_set_entry = GetSpawnSetEntrySettings(identity.GetPlainId());
+		GetPromocodeUsageHandler().HandleSpawnEvent( player, spawn_set_entry );
+		return player;
 	}
 	
+	override void EquipCharacter(MenuDefaultCharacterData char_data) 
+	{
+		auto spawn_set_entry = GetSpawnSetEntrySettings(identity.GetPlainId());
+		if ( spawn_set_entry ) 
+		{
+			array<PromocodeEntrySettings> promocodes = spawn_set_entry.Promocodes();
+			
+			if ( HasAtLeastOneActivePromocode( promocodes, m_Player.GetIdentity().GetPlainId() )
+			{
+				return;
+			} 
+			else 
+			{
+				super.EquipCharacter( chat_data );
+			}
+		}
+	}
+	*/
+	
+	private bool HasAtLeastOneActivePromocode( array<PromocodeEntrySettings> promocodes, PlayerBase player )
+	{
+		foreach(auto promocode : promocodes )
+		{
+
+			auto player_entry = promocode.GetPlayerEntry( player );
+			if ( !player_entry ) continue;
+			if ( GetPromocodeUsageHandler().CanUse( promocode, player_entry, NULL, true )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 	override void OnEvent( EventType eventTypeId, Param params ) 

@@ -17,12 +17,19 @@ class PromocodeEntrySettings
 	{
 		entry_id = id;
 	}
-
+	
+	
 	string GetPath() 
 	{
 		return CONFIG_DIR + "\\" + entry_id + ".json";
 	}
 	
+
+	bool OnlyOnRespawn()
+	{
+		return only_on_respawn;
+	}
+
 	bool SpawnOnGround()
 	{
 		return spawn_on_ground;

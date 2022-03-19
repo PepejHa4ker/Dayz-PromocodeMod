@@ -31,18 +31,21 @@ class PromocodeUsageHandler
 		}
 	}
 	
-	private bool CanUse( PromocodeEntrySettings promocode_entry, PromocodePlayerEntry player_entry, PlayerBase player )
+	bool CanUse( PromocodeEntrySettings promocode_entry, PromocodePlayerEntry player_entry, PlayerBase player, bool on_spawn )
 	{
 		
-		if ( player_entry.activation_date_unix + player_entry.GetPromocodeDays() > PMStatic.GetUnixNow() ) 
+		if ( player_entry.activation_date_unix + player_entry.GetPromocodeDays() < PMStatic.GetUnixNow() ) 
 		{
-			PMStatic.SendPlayerMessage(player, "Похоже, срок действия промокода закончился");
+			if ( !on_spawn )
+				PMStatic.SendPlayerMessage(player, "Похоже, срок действия промокода закончился");
+			
 			return false;
 
 		}
 		if ( promocode_entry.GetMaxUsages() != -1 && player_entry.usages >= promocode_entry.GetMaxUsages() )
 		{
-			PMStatic.SendPlayerMessage(player, "Достигнуто макисмальное количество использований промокода");
+			if ( !on_spawn )
+				PMStatic.SendPlayerMessage(player, "Достигнуто макисмальное количество использований промокода");
 
 			return false;
 		}
@@ -50,7 +53,8 @@ class PromocodeUsageHandler
 		
 		if ( player_entry.last_use_unix_ts + promocode_entry.GetDurationMinutes() * 60 * 1000 > PMStatic.GetUnixNow() )
 		{
-			PMStatic.SendPlayerMessage(player, "Вы не можете использовать этот промокод еще " + GetRemainingMinutesToUsePromocode( player_entry.last_use_unix_ts, promocode_entry.GetDurationMinutes() ) + " минут" );
+			if ( !on_spawn )
+				PMStatic.SendPlayerMessage(player, "Вы не можете использовать этот промокод еще " + GetRemainingMinutesToUsePromocode( player_entry.last_use_unix_ts, promocode_entry.GetDurationMinutes() ) + " минут" );
 
 			return false;
 		}
@@ -83,22 +87,21 @@ class PromocodeUsageHandler
     private void HandlePromocodeCommand( PlayerBase player, string promocode_id, bool on_spawn )
     {
     	auto entry = GetPromocodeEntrySettings( promocode_id );
-    	if ( entry == NULL )
+    	if ( !entry )
     	{
 			if ( !on_spawn ) 
-			{
-    		PMStatic.SendPlayerMessage(player, "Промокод " + promocode_id + " не существует");
-			}
+				PMStatic.SendPlayerMessage(player, "Промокод " + promocode_id + " не существует");
+			
     	} 
     	else
     	{
-			if ( entry.only_on_spawn ) 
+			if ( entry.OnlyOnRespawn() ) 
 			{
-				PMStatic.SendPlayerMessage(player, "Вы не можете использовать этот промокод"");
+				PMStatic.SendPlayerMessage(player, "Вы не можете использовать этот промокод");
 				return;
 			}
 			auto player_entry = entry.GetPlayerEntry( player );
-			if ( player_entry == NULL ) 
+			if ( !player_entry ) 
 			{
 				if ( entry.IsPublic() ) 
 				{
@@ -111,18 +114,15 @@ class PromocodeUsageHandler
 				else // access denied
 				{
 					if ( !on_spawn ) 
-					{
+					
 						PMStatic.SendPlayerMessage(player, "У Вас нет доступа к этому промокоду" );
-					}
 					return;
 					
 				}
 			}
-			if ( CanUse( entry, player_entry, player ) )
-			{
-			
+			if ( CanUse( entry, player_entry, player, false ) )
    	    		Use( entry, player_entry, player );	
-			}
+			
 				
 	   	}
     	
