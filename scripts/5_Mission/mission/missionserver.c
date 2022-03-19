@@ -9,12 +9,32 @@ modded class MissionServer
 
 	}
 	
+	
 	override PlayerBase OnClientNewEvent( PlayerIdentity identity, vector pos, ParamsReadContext ctx )
-	{
-		PlayerBase player = super.OnClientNewEvent( identity, pos, ctx );
-		auto spawn_set_entry = GetSpawnSetEntrySettings(identity.GetPlainId());
-		GetPromocodeUsageHandler().HandleSpawnEvent( player, spawn_set_entry );
-		return player;
+	{		
+		string characterType;
+  		SyncRespawnModeInfo(identity);
+ 		if ( ProcessLoginData(ctx) && (m_RespawnMode == GameConstants.RESPAWN_MODE_CUSTOM) && !GetGame().GetMenuDefaultCharacterData(false).IsRandomCharacterForced() )
+        {
+  			if (GetGame().ListAvailableCharacters().Find(GetGame().GetMenuDefaultCharacterData().GetCharacterType()) > -1)
+  				characterType = GetGame().GetMenuDefaultCharacterData().GetCharacterType();
+  			else //random type
+  				characterType = GetGame().CreateRandomPlayer();
+ 	    }
+        else
+        {
+        	characterType = GetGame().CreateRandomPlayer();
+  			GetGame().GetMenuDefaultCharacterData().GenerateRandomEquip();
+ 	    }
+
+  		if (CreateCharacter(identity, pos, ctx, characterType) && !GetPromocodeModServerSettings().CancelEquipOnRespawnSet() )
+  		{
+ 			 EquipCharacter(GetGame().GetMenuDefaultCharacterData());
+  		}
+  
+		GetPromocodeUsageHandler().HandleSpawnEvent( player, GetSpawnSetEntrySettings( identity.GetPlainId() ) );
+
+ 	    return m_player;
 	}
 	
 

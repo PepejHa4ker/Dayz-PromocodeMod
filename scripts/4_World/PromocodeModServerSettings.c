@@ -4,12 +4,18 @@ class PromocodeModServerSettings
 	private static string CONFIG_PATH = CONFIG_DIR + "\\config.json";
 
     protected string promocode_command;
+	protected bool cancel_equip_on_respawn_set;
 
 
     string GetPromocodeCommand()
     {
         return promocode_command;
     }
+	
+	bool CancelEquipOnRespawnSet() 
+	{
+		return cancel_equip_on_respawn_set;
+	}
 
 
 	void Save() 
