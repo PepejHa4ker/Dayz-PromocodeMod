@@ -34,7 +34,7 @@ class PromocodeUsageHandler
 	bool CanUse( PromocodeEntrySettings promocode_entry, PromocodePlayerEntry player_entry, PlayerBase player, bool on_spawn )
 	{
 		
-		if ( player_entry.activation_date_unix + player_entry.GetPromocodeDays() < PMStatic.GetUnixNow() ) 
+		if ( player_entry.activation_date_unix + player_entry.GetPromocodeDays() > PMStatic.GetUnixNow() ) 
 		{
 			if ( !on_spawn )
 				PMStatic.SendPlayerMessage(player, "Похоже, срок действия промокода закончился");
@@ -42,7 +42,7 @@ class PromocodeUsageHandler
 			return false;
 
 		}
-		if ( promocode_entry.GetMaxUsages() != -1 && player_entry.usages >= promocode_entry.GetMaxUsages() )
+		if ( promocode_entry.GetMaxUsages() > 0 && player_entry.usages >= promocode_entry.GetMaxUsages() )
 		{
 			if ( !on_spawn )
 				PMStatic.SendPlayerMessage(player, "Достигнуто макисмальное количество использований промокода");
